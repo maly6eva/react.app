@@ -44,10 +44,23 @@ function App() {
 	const sortItems = (a, b) => {
 		if (a.date < b.date) {
 			return 1;
-		}else {
+		} else {
 			return -1;
 		}
 	};
+
+	let list = <p>Записей пока нет, добавте первую.</p>;
+	if (items.length > 0) {
+		list = items.sort(sortItems).map(el => (
+			<CardButton key={el.id}>
+				<JournalItem
+					title={el.title}
+					text={el.text}
+					date={el.date}
+				/>
+			</CardButton>
+		));
+	}
 
 	return (
 		<div className='app'>
@@ -55,16 +68,7 @@ function App() {
 				<Header/>
 				<JournalAddButton/>
 				<JournalList>
-					{items.length === 0 &&  <p>Записей пока нет, добавте первую.</p>}
-					{items.length > 0 && items.sort(sortItems).map(el => (
-						<CardButton key={el.id}>
-							<JournalItem
-								title={el.title}
-								text={el.text}
-								date={el.date}
-							/>
-						</CardButton>
-					))}
+					{list}
 				</JournalList>
 			</LeftPanel>
 			<Body>
