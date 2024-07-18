@@ -15,18 +15,18 @@ import JournalForm from './components/JournalForm/JournalForm.jsx';
 
 
 const INITIAL_DATA  = [
-	{
-		id: 1,
-		title: 'Подготовка к обнавлению курса',
-		text: 'Горные походы открывают удивительные природные ландшафты',
-		date: new Date()
-	},
-	{
-		id: 2,
-		title: 'Поход в горы',
-		text: 'Думал очень долгое времени',
-		date: new Date()
-	}
+	// {
+	// 	id: 1,
+	// 	title: 'Подготовка к обнавлению курса',
+	// 	text: 'Горные походы открывают удивительные природные ландшафты',
+	// 	date: new Date()
+	// },
+	// {
+	// 	id: 2,
+	// 	title: 'Поход в горы',
+	// 	text: 'Думал очень долгое времени',
+	// 	date: new Date()
+	// }
 ];
 
 function App() {
@@ -55,7 +55,7 @@ function App() {
 				<Header/>
 				<JournalAddButton/>
 				<JournalList>
-					{items.sort(sortItems).map(el => (
+					{items.length === 0 ? <p>Записей пока нет, добавте первую.</p>: items.sort(sortItems).map(el => (
 						<CardButton key={el.id}>
 							<JournalItem
 								title={el.title}
