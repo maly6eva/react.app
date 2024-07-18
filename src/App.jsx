@@ -55,7 +55,8 @@ function App() {
 				<Header/>
 				<JournalAddButton/>
 				<JournalList>
-					{items.length === 0 ? <p>Записей пока нет, добавте первую.</p>: items.sort(sortItems).map(el => (
+					{items.length === 0 &&  <p>Записей пока нет, добавте первую.</p>}
+					{items.length > 0 && items.sort(sortItems).map(el => (
 						<CardButton key={el.id}>
 							<JournalItem
 								title={el.title}
