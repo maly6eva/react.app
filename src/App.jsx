@@ -41,35 +41,15 @@ function App() {
 		}]);
 	};
 
-	const sortItems = (a, b) => {
-		if (a.date < b.date) {
-			return 1;
-		} else {
-			return -1;
-		}
-	};
 
-	let list = <p>Записей пока нет, добавте первую.</p>;
-	if (items.length > 0) {
-		list = items.sort(sortItems).map(el => (
-			<CardButton key={el.id}>
-				<JournalItem
-					title={el.title}
-					text={el.text}
-					date={el.date}
-				/>
-			</CardButton>
-		));
-	}
 
 	return (
 		<div className='app'>
 			<LeftPanel>
 				<Header/>
 				<JournalAddButton/>
-				<JournalList>
-					{list}
-				</JournalList>
+				<JournalList items={items}/>
+
 			</LeftPanel>
 			<Body>
 				<JournalForm onSubmit={addItem}/>
