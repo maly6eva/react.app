@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import './App.css';
 import Button from './components/Button/Button.jsx';
 import CardButton from './components/CardButton/CardButton.jsx';
@@ -14,24 +14,20 @@ import JournalForm from './components/JournalForm/JournalForm.jsx';
 
 
 
-const INITIAL_DATA  = [
-	// {
-	// 	id: 1,
-	// 	title: 'Подготовка к обнавлению курса',
-	// 	text: 'Горные походы открывают удивительные природные ландшафты',
-	// 	date: new Date()
-	// },
-	// {
-	// 	id: 2,
-	// 	title: 'Поход в горы',
-	// 	text: 'Думал очень долгое времени',
-	// 	date: new Date()
-	// }
-];
 
 function App() {
-	const [items, setItems] = useState(INITIAL_DATA);
-	console.log(items);
+	const [items, setItems] = useState([]);
+
+	useEffect(() => {
+		const data = JSON.parse(localStorage.getItem('date'));
+		if(data) {
+			setItems(data.map(item => ({
+				...item,
+				date: new Date(item.date)
+			})));
+		}
+	}, []);
+
 
 	const addItem = item => {
 		setItems(oldItems => [...oldItems, {
