@@ -27,23 +27,23 @@ function JournalForm({ onSubmit }) {
 	useEffect(() => {
 		if (isFormReadyToSubmit) {
 			onSubmit(values);
+			dispatchForm({ type: 'CLEAR'});
 		}
 	}, [isFormReadyToSubmit]);
 
-
+	const onChange = (e) => {
+		dispatchForm({ type: 'SET_VALUE', payload: { [e.target.name]: e.target.value}});
+	};
 
 	const addJornalItem = (e) => {
 		e.preventDefault();
-		const formData = new FormData(e.target);
-		const formProps = Object.fromEntries(formData);
-		dispatchForm({ type: 'SUBMIT', payload: formProps });
-		onSubmit(formProps);
+		dispatchForm({ type: 'SUBMIT' });
 	};
 
 	return (
 		<form className={styles ['journal-form']} onSubmit={addJornalItem}>
 			<div>
-				<input type='text' name='title' className={cn(styles['input-title'], {
+				<input type='text' onChange={onChange} value={values.title} name='title' className={cn(styles['input-title'], {
 					[styles['invalid']]: !isValid.title
 				})}/>
 			</div>
@@ -52,7 +52,7 @@ function JournalForm({ onSubmit }) {
 					<img src="/data.svg" alt="Иконка календаря"/>
 					<span>Дата</span>
 				</label>
-				<input type='date' name='date' id='date' className={cn(styles['input'], {
+				<input type='date' onChange={onChange} name='date' value={values.data}  id='date' className={cn(styles['input'], {
 					[styles['invalid']] : !isValid.date
 				})}/>)
 			</div>
@@ -62,11 +62,11 @@ function JournalForm({ onSubmit }) {
 					<img src="/folder.svg" alt="Иконка папки"/>
 					<span>Метки</span>
 				</label>
-				<input type='text'id='tag' name='teg' className={styles['input']}/>
+				<input type='text' onChange={onChange} id='tag' value={values.tag} name='teg' className={styles['input']}/>
 			</div>
 
 
-			<textarea name='post' id="" cols="30" rows="10" className={cn(styles['input'], {[styles['invalid']]: !isValid.post})}></textarea>
+			<textarea name='post' id="" onChange={onChange} value={values.post}  cols="30" rows="10" className={cn(styles['input'], {[styles['invalid']]: !isValid.post})}></textarea>
 			<Button text="Сохранить"/>
 		</form>
 
