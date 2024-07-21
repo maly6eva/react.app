@@ -4,7 +4,7 @@ import {useEffect, useReducer, useRef} from 'react';
 import cn from 'classnames';
 import { INITIAL_STATE, formReducer } from './JournalForm.state';
 import Input from '../Input/Input';
-// import { UserContext } from '../UserContext';
+import { UserContext } from '../../context/user.context';
 
 function JournalForm({ onSubmit}) {
 	const [formState, dispatchForm] = useReducer(formReducer, INITIAL_STATE);
@@ -12,6 +12,7 @@ function JournalForm({ onSubmit}) {
 	const titleRef = useRef();
 	const dateRef = useRef();
 	const postRef = useRef();
+	const { userId } = useContext(UserContext);
 
 	const focusError = (isValid) => {
 		switch(true) {
@@ -58,15 +59,18 @@ function JournalForm({ onSubmit}) {
 
 	return (
 		<form className={styles ['journal-form']} onSubmit={addJornalItem}>
+			{userId}
 			<div>
-				<Input type='text' ref={titleRef}  onChange={onChange} value={values.title} name='title' inValid={!isValid.title}/>
+				<Input type='text' ref={titleRef} onChange={onChange} value={values.title} name='title'
+							   isValid={!isValid.title}/>
 			</div>
 			<div className={styles['form-row']}>
 				<label htmlFor="date" className={styles['form-label']}>
 					<img src="/data.svg" alt="Иконка календаря"/>
 					<span>Дата</span>
 				</label>
-				<Input type='date' ref={dateRef} onChange={onChange} name='date' value={values.data}  id='date' inValid={!isValid.date} />
+				<Input type='date' ref={dateRef} onChange={onChange} name='date' value={values.data} id='date'
+							   isValid={!isValid.date}/>
 			</div>
 
 			<div className={styles['form-row']}>
@@ -78,11 +82,12 @@ function JournalForm({ onSubmit}) {
 			</div>
 
 
-			<textarea ref={postRef} name='post' id="" onChange={onChange} value={values.post}  cols="30" rows="10" className={cn(styles['input'], {
-				[styles['invalid']]: !isValid.post})}></textarea>
+			<textarea ref={postRef} name='post' id="" onChange={onChange} value={values.post} cols="30"
+							  rows="10" className={cn(styles['input'], {
+					[styles['invalid']]: !isValid.post
+				})}></textarea>
 			<Button text="Сохранить"/>
 		</form>
-
 	);
 }
 

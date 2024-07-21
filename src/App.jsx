@@ -1,12 +1,12 @@
-
 import './App.css';
 import Header from './components/Header/Header.jsx';
-import JournalList from './layouts/JournalList/JournalList.jsx';
-import Body from './layouts/Body/Body.jsx';
-import LeftPanel from './layouts/LeftPanel/LeftPanel.jsx';
-import JournalAddButton from './components/JournalAddButton/JournalAddButton.jsx';
-import JournalForm from './components/JournalForm/JournalForm.jsx';
+import JournalList from './layouts/JournalList/JournalList';
+import Body from './layouts/Body/Body';
+import LeftPanel from './layouts/LeftPanel/LeftPanel';
+import JournalAddButton from './components/JournalAddButton/JournalAddButton';
+import JournalForm from './components/JournalForm/JournalForm';
 import { useLocalStorage } from './hooks/use-localstorage.hook';
+import { UserContext } from './context/user.context';
 
 
 
@@ -33,17 +33,20 @@ function App() {
 	};
 
 	return (
-		<div className='app'>
-			<LeftPanel>
-				<Header/>
-				<JournalAddButton/>
-				<JournalList items={mapItems(items)}/>
-
-			</LeftPanel>
-			<Body>
-				<JournalForm onSubmit={addItem}/>
-			</Body>
-		</div>
+		<>
+		    <UserContext.Provider value={{ userId: 2 }}>
+				<div className='app'>
+					<LeftPanel>
+						<Header/>
+						<JournalAddButton/>
+						<JournalList items={mapItems(items)}/>
+					</LeftPanel>
+					<Body>
+						<JournalForm onSubmit={addItem}/>
+					</Body>
+				</div>
+		    </UserContext.Provider>
+		</>
 	);
 }
 
