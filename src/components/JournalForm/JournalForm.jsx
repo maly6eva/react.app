@@ -6,7 +6,7 @@ import { INITIAL_STATE, formReducer } from './JournalForm.state';
 import Input from '../Input/Input';
 import { UserContext } from '../../context/user.context.jsx';
 
-function JournalForm({ onSubmit}) {
+function JournalForm({ onSubmit, data}) {
 	const [formState, dispatchForm] = useReducer(formReducer, INITIAL_STATE);
 	const { isValid, isFormReadyToSubmit, values } = formState;
 	const titleRef = useRef();
@@ -27,6 +27,12 @@ function JournalForm({ onSubmit}) {
 			break;
 		}
 	};
+
+	useEffect(() => {
+		dispatchForm({ type: 'SET_VALUE', payload: {...data}});
+	}, [data]);
+
+
 
 	useEffect(() => {
 		let timerId;
