@@ -89,7 +89,7 @@ function JournalForm({ onSubmit}) {
 							  rows="10" className={cn(styles['input'], {
 					[styles['invalid']]: !isValid.post
 				})}></textarea>
-			<Button text="Сохранить"/>
+			<Button>Сохранить</Button>
 		</form>
 	);
 }
