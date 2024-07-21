@@ -1,53 +1,43 @@
-import {useEffect, useState} from 'react';
+
 import './App.css';
-import Button from './components/Button/Button.jsx';
-import CardButton from './components/CardButton/CardButton.jsx';
 import Header from './components/Header/Header.jsx';
-import JournalItem from './components/JournalItem/JournalItem.jsx';
 import JournalList from './layouts/JournalList/JournalList.jsx';
 import Body from './layouts/Body/Body.jsx';
 import LeftPanel from './layouts/LeftPanel/LeftPanel.jsx';
 import JournalAddButton from './components/JournalAddButton/JournalAddButton.jsx';
 import JournalForm from './components/JournalForm/JournalForm.jsx';
+import { useLocalStorage } from './hooks/use-localstorage.hook';
+
+
+
+function mapItems(items) {
+	if (!items) {
+		return [];
+	}
+	return items.map(i => ({
+		...i,
+		date: new Date(i.date)
+	}));
+}
 
 function App() {
-	const [items, setItems] = useState([]);
-
-	useEffect(() => {
-		const data = JSON.parse(localStorage.getItem('date'));
-		if(data) {
-			setItems(data.map(item => ({
-				...item,
-				date: new Date(item.date)
-			})));
-		}
-	}, []);
-
-	useEffect(() =>  {
-		if(items.length){
-			console.log('Запись!');
-			localStorage.setItem('data', JSON.stringify(items));
-		}
-	}, [items]);
-
+	const [items, setItems] = useLocalStorage('data');
 
 	const addItem = item => {
-		setItems(oldItems => [...oldItems, {
+		setItems(...mapItems(items), {
 			post: item.post,
 			title: item.title,
 			date: new Date(item.date),
-			id: oldItems.length > 0 ? Math.max(...oldItems.map(i => i.id)) + 1 : 1
-		}]);
+			id: items.length > 0 ? Math.max(...items.map(i => i.id)) + 1 : 1
+		});
 	};
-
-
 
 	return (
 		<div className='app'>
 			<LeftPanel>
 				<Header/>
 				<JournalAddButton/>
-				<JournalList items={items}/>
+				<JournalList items={mapItems(items)}/>
 
 			</LeftPanel>
 			<Body>
